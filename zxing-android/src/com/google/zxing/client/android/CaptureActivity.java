@@ -78,6 +78,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
                  ResultMetadataType.ERROR_CORRECTION_LEVEL,
                  ResultMetadataType.POSSIBLE_COUNTRY);
   public static final java.lang.String ZXING_CAPTURE_LAYOUT_ID_KEY = "ZXING_CAPTURE_LAYOUT_ID_KEY";
+  public static final java.lang.String ZXING_CAPTURE_SCREEN_ORIENTATION = "ZXING_CAPTURE_SCREEN_ORIENTATION";
 
   private CameraManager cameraManager;
   private CaptureActivityHandler handler;
@@ -97,6 +98,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
   private AmbientLightManager ambientLightManager;
 
   private Button cancelButton;
+  private int screenOrientation = -1;
 
   ViewfinderView getViewfinderView() {
     return viewfinderView;
@@ -121,9 +123,12 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     Bundle extras = getIntent().getExtras();
 
     int zxingCaptureLayoutResourceId = R.layout.zxing_capture;
+
     if (extras != null) {
         zxingCaptureLayoutResourceId = extras.getInt(ZXING_CAPTURE_LAYOUT_ID_KEY, R.layout.zxing_capture);
+        screenOrientation = extras.getInt(ZXING_CAPTURE_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
+
     setContentView (zxingCaptureLayoutResourceId);
 
     hasSurface = false;
@@ -169,11 +174,17 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+    int orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+
     if (prefs.getBoolean(PreferencesActivity.KEY_DISABLE_AUTO_ORIENTATION, true)) {
-      setRequestedOrientation(getCurrentOrientation());
-    } else {
-      setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+      orientation = getCurrentOrientation(); 
     }
+
+    if (screenOrientation >= 0) {
+      orientation = screenOrientation;
+    }
+
+    setRequestedOrientation(orientation);
 
     resetStatusView();
 

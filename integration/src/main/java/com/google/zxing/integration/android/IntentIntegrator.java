@@ -206,6 +206,16 @@ public class IntentIntegrator {
     }
 
     /**
+     * Change the layout Orientation used for scanning in zxing-android.
+     *
+     * @param orientation to use.
+     */
+    public final IntentIntegrator setScreenOrientation(int orientation) {
+        addExtra("ZXING_CAPTURE_SCREEN_ORIENTATION", orientation);
+        return this;
+    }
+
+    /**
      * Change the layout used for scanning in zxing-android.
      *
      * @param resourceId the layout resource id to use.

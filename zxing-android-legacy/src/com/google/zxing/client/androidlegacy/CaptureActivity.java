@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -80,6 +81,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
                  ResultMetadataType.ERROR_CORRECTION_LEVEL,
                  ResultMetadataType.POSSIBLE_COUNTRY);
   public static final java.lang.String ZXING_CAPTURE_LAYOUT_ID_KEY = "ZXINGLEGACY_CAPTURE_LAYOUT_ID_KEY";
+  public static final java.lang.String ZXING_CAPTURE_SCREEN_ORIENTATION = "ZXING_CAPTURE_SCREEN_ORIENTATION";
 
   private CameraManager cameraManager;
   private CaptureActivityHandler handler;
@@ -123,10 +125,15 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     Bundle extras = getIntent().getExtras();
 
     int zxingCaptureLayoutResourceId = R.layout.zxinglegacy_capture;
+    int screenOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+
     if (extras != null) {
         zxingCaptureLayoutResourceId = extras.getInt(ZXING_CAPTURE_LAYOUT_ID_KEY, R.layout.zxinglegacy_capture);
+        screenOrientation = extras.getInt(ZXING_CAPTURE_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
+
     setContentView (zxingCaptureLayoutResourceId);
+    setRequestedOrientation(screenOrientation);
 
     hasSurface = false;
     inactivityTimer = new InactivityTimer(this);
