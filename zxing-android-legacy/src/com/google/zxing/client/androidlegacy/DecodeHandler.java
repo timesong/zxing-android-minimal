@@ -79,6 +79,10 @@ final class DecodeHandler extends Handler {
         }
     }
 
+    int tmp = width;         
+    width = height;
+    height = tmp;
+
     long start = System.currentTimeMillis();
     Result rawResult = null;
     PlanarYUVLuminanceSource source = activity.getCameraManager().buildLuminanceSource(rotatedData, width, height);

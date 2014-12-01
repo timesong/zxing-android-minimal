@@ -288,7 +288,7 @@ public class IntentIntegrator {
         // }
 
         int desiredWidth = displayWidth * 9 / 10;
-        int desiredHeight = Math.min(displayHeight * 3 / 5, 320);    // Limit to 400px
+        int desiredHeight = Math.min(displayHeight * 3 / 4, 400);    // Limit to 400px
         setScanningRectangle(desiredWidth, desiredHeight);
     }
 
