@@ -279,16 +279,16 @@ public class IntentIntegrator {
         Display display = window.getDefaultDisplay();
         int displayWidth = display.getWidth();
         int displayHeight = display.getHeight();
-        if (displayHeight > displayWidth) {
-            // This is portrait dimensions, but the barcode scanner is always in landscape mode.
-            int temp = displayWidth;
-            //noinspection SuspiciousNameCombination
-            displayWidth = displayHeight;
-            displayHeight = temp;
-        }
+        // if (displayHeight > displayWidth) {
+        //     // This is portrait dimensions, but the barcode scanner is always in landscape mode.
+        //     int temp = displayWidth;
+        //     //noinspection SuspiciousNameCombination
+        //     displayWidth = displayHeight;
+        //     displayHeight = temp;
+        // }
 
         int desiredWidth = displayWidth * 9 / 10;
-        int desiredHeight = Math.min(displayHeight * 3 / 4, 400);    // Limit to 400px
+        int desiredHeight = Math.min(displayHeight * 3 / 5, 320);    // Limit to 400px
         setScanningRectangle(desiredWidth, desiredHeight);
     }
 
