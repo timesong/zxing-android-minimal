@@ -24,6 +24,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
+import java.lang.reflect.Method;
 
 import com.google.zxing.client.android.PreferencesActivity;
 
@@ -100,6 +101,7 @@ final class CameraConfigurationManager {
     }
 
     parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
+    setDisplayOrientation(camera, 90);
     camera.setParameters(parameters);
 
     Camera.Parameters afterParameters = camera.getParameters();
@@ -151,5 +153,19 @@ final class CameraConfigurationManager {
       CameraConfigurationUtils.setBestExposure(parameters, newSetting);
     }
   }
+
+  protected void setDisplayOrientation(Camera camera, int angle) {
+      Method downPolymorphic;
+
+      try {
+          downPolymorphic = camera.getClass().getMethod(
+                "setDisplayOrientation", new Class[] { int.class });
+
+          if (downPolymorphic != null) {
+              downPolymorphic.invoke(camera, new Object[] { angle });
+          }
+      } catch (Exception e1) {
+      }
+  } 
 
 }
